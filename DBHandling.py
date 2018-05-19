@@ -21,17 +21,17 @@ def CreateTables(c):
 		 """)
    
     c.execute("""CREATE TABLE IF NOT EXISTS Friend (
-                             friendship_ID integer PRIMARY KEY AUTOINCREMENT,
-                             friend1_ID integer,
-                             friend2_ID integer,
+                             friendship_id integer PRIMARY KEY AUTOINCREMENT,
+                             friend1_id integer,
+                             friend2_id integer,
                              date_added datetime,
                              friend_type varchar
                              );
                              """)
                             
     c.execute("""CREATE TABLE IF NOT EXISTS Messages (
-                             message_ID integer PRIMARY KEY AUTOINCREMENT,
-                             sender_ID integer,
+                             message_id integer PRIMARY KEY AUTOINCREMENT,
+                             sender_id integer,
                              is_sent varchar,
                              date_time_sent datetime,
                              message_body text,
@@ -40,10 +40,10 @@ def CreateTables(c):
                              """)
                             
     c.execute("""CREATE TABLE IF NOT EXISTS Receiving (			
-                             recipient_ID integer,
+                             recipient_id integer,
                              date_time_received datetime,
                              is_received varchar,
-                             message_ID integer
+                             message_id integer
                              );
                              """)
 			
@@ -110,6 +110,12 @@ def print_friends():
 		c.execute("SELECT * FROM Friend")
 		print(c.fetchall())
 
+		
+def delete_friend(user1_id, user2_id):
+	with conn:
+		c.execute("DELETE from Users WHERE friend1_id = :friend1_id AND friend2_id = :friend2_id",
+                  {'friend1_id': user2_id, 'friend2_id': user1_id})
+		
 def clear_friends():
 	with conn:
 		c.execute("DELETE FROM Friend")
@@ -167,6 +173,7 @@ def search_by_email(email):
 ##user6 = Users('', 'Dimitre', 'Dim', 's', 2101314255, 'dim@gmail.com', 'passkey', 's', 'y')
 
 ##print(user1)
+##CreateTables(c)
 
 ##ins_user(user1)
 ##ins_user(user2)
@@ -178,5 +185,5 @@ def search_by_email(email):
 ##print_users()
 ##users = print_usnames()
 
-##make_friend(217, 216, '29.12.1995', 'work')
+##make_friend(2, 5, 'work')
 ##print_friends()
