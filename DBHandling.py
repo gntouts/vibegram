@@ -102,35 +102,79 @@ def make_friend(user1_id, user2_id, date_added, friend_type):
 		'friend2_id': user2_id, 
 		'date_added': date_added, 
 		'friend_type': friend_type})
-		conn.commit
-		
-		
+				
 def print_friends():
 	with conn:
 		c.execute("SELECT * FROM Friend")
 		print(c.fetchall())
 
+def clear_friends():
+	with conn:
+		c.execute("DELETE FROM Friend")
 
-clear_users()
+def search_by_name(name, lastname):
+	with conn:
+		c.execute("""SELECT user_id FROM Users
+					WHERE first_name = :first_name 
+					AND last_name = :last_name""",
+					{'first_name': name, 'last_name': lastname}
+					)
+		print(c.fetchall())
 		
-user1 = Users('', 'Giorgos', 'Tasopoulos', 's', 2106014255, 'tasop@gmail.com', 'passkey', 's', 'y')
-user2 = Users('', 'Zoi', 'Tzavlanis', 's', 2101314255, 'zavl@gmail.com', 'passkey', 's', 'y')
-user3 = Users('', 'Dora', 'Sips', 's', 2106014255, 'tsips@gmail.com', 'passkey', 's', 'y')
-user4 = Users('', 'Spiros', 'Katsen', 's', 2101314255, 'katsen@gmail.com', 'passkey', 's', 'y')
-user5 = Users('', 'Konsta', 'Alexiu', 's', 2106014255, 'alex@gmail@gmail.com', 'passkey', 's', 'y')
-user6 = Users('', 'Dimitre', 'Dim', 's', 2101314255, 'dim@gmail.com', 'passkey', 's', 'y')
+def search_first(name):
+	with conn:
+		c.execute("""SELECT user_id FROM Users
+					WHERE first_name = :first_name""",
+					{'first_name': name}
+					)
+		print(c.fetchall())
+		
+def search_last(lastname):
+	with conn:
+		c.execute("""SELECT user_id FROM Users
+					WHERE last_name = :last_name""",
+					{'last_name': lastname}
+					)
+		print(c.fetchall())
+				
+def search_by_phone(phone):
+	with conn:
+		c.execute("""SELECT user_id FROM Users
+					WHERE phone_number = :phone_number""",
+					{'phone_number': number}
+					)
+		print(c.fetchall())
+		
+		
+def search_by_email(email):
+	with conn:
+		c.execute("""SELECT user_id FROM Users
+					WHERE e_mail = :pe_mail""",
+					{'e_mail': email}
+					)
+		print(c.fetchall())
+		
+	
+##clear_users()
+		
+##user1 = Users('', 'Giorgos', 'Tasopoulos', 's', 2106014255, 'tasop@gmail.com', 'passkey', 's', 'y')
+##user2 = Users('', 'Zoi', 'Tzavlanis', 's', 2101314255, 'zavl@gmail.com', 'passkey', 's', 'y')
+##user3 = Users('', 'Dora', 'Sips', 's', 2106014255, 'tsips@gmail.com', 'passkey', 's', 'y')
+##user4 = Users('', 'Spiros', 'Katsen', 's', 2101314255, 'katsen@gmail.com', 'passkey', 's', 'y')
+##user5 = Users('', 'Konsta', 'Alexiu', 's', 2106014255, 'alex@gmail@gmail.com', 'passkey', 's', 'y')
+##user6 = Users('', 'Dimitre', 'Dim', 's', 2101314255, 'dim@gmail.com', 'passkey', 's', 'y')
 
-print(user1)
+##print(user1)
 
-ins_user(user1)
-ins_user(user2)
-ins_user(user3)
-ins_user(user4)
-ins_user(user5)
-ins_user(user6)
+##ins_user(user1)
+##ins_user(user2)
+##ins_user(user3)
+##ins_user(user4)
+##ins_user(user5)
+##ins_user(user6)
 
 ##print_users()
-users = print_usnames()
+##users = print_usnames()
 
-make_friend(217, 216, '29.12.1995', 'work')
+##make_friend(217, 216, '29.12.1995', 'work')
 ##print_friends()
