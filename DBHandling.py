@@ -113,7 +113,7 @@ def print_friends():
 		
 def delete_friend(user1_id, user2_id):
 	with conn:
-		c.execute("DELETE from Users WHERE friend1_id = :friend1_id AND friend2_id = :friend2_id",
+		c.execute("DELETE from Friend WHERE friend1_id = :friend1_id AND friend2_id = :friend2_id",
                   {'friend1_id': user2_id, 'friend2_id': user1_id})
 		
 def clear_friends():
