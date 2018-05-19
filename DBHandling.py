@@ -184,12 +184,52 @@ def create_message(message):
 		'message_body': message.message_body, 'attachment': message.attachment}
 		)
 
+def send_message(recipient_id, message_id):
+	with conn:
+		c.execute("""INSERT INTO Receiving (recipient_id,
+		date_time_received, is_received,
+		message_id)
+		
+		VALUES (:recipient_id,
+		:date_time_received, 
+		:is_received,
+		:message_id)""",
+		{'recipient_id': recipient_id,
+		'date_time_received': '', 'is_received': 'N',
+		'message_id': message_id}
+		)
+		
+def message_received(message_id):
+	with conn:
+		date_time_received = str(datetime.datetime.now())
+		is_received = 'Y'
+		c.execute("""UPDATE Receiving
+		SET date_time_received = :date_time_received, is_received = :is_received
+		WHERE message_id  = :message_id)""",
+		{'date_time_received': date_time_received,
+		'is_received': is_received,
+		'message_id': message_id}
+		)
+		
+
 def print_all_msg():
 	with conn:
 		c.execute("SELECT * FROM Messages")
 		print(c.fetchall())		
 
-def print_conv()
+def print_conv(user1_id, user2_id):
+	with conn:
+		c.execute("""SELECT  sender_id, message_body, attachment
+			FROM Messages JOIN Receiving
+			ON Receiving.message_id = Messages.message_id
+			WHERE (sender_id = :sender_id AND recipient_id = :recipient_id)
+			OR (sender_id = :recipient_id AND recipient_id = :sender_id)
+			""",
+			{'recipient_id': user1_id, 'sender_id': user2_id}
+			)
+		print(c.fetchmany(20))
+
+
 ##clear_users()
 		
 ##user1 = Users('', 'Giorgos', 'Tasopoulos', 's', 2106014255, 'tasop@gmail.com', 'passkey', 's', 'y')
@@ -219,3 +259,4 @@ def print_conv()
 ##message1=Messages('',2, 'Y', '', body, '/0')
 ##create_message(message1)
 ##print_all_msg()
+#print_conv(2, 2)
