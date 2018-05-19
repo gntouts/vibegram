@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 from dbclass import *
 
 conn = sqlite3.connect('vibegram.db')
@@ -90,8 +91,9 @@ def print_usnames():
 		c.execute("SELECT user_id, first_name, last_name FROM Users")
 		print(c.fetchall())
 				  
-def make_friend(user1_id, user2_id, date_added, friend_type):
+def make_friend(user1_id, user2_id, friend_type):
 	with conn:
+		date_added = str(datetime.datetime.now())
 		c.execute("""INSERT INTO Friend (friend1_id, 
 		friend2_id, date_added, friend_type) 
 		
