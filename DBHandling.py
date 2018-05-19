@@ -224,6 +224,7 @@ def print_conv(user1_id, user2_id):
 			ON Receiving.message_id = Messages.message_id
 			WHERE (sender_id = :sender_id AND recipient_id = :recipient_id)
 			OR (sender_id = :recipient_id AND recipient_id = :sender_id)
+			ORDER BY Receiving.date_time_received DESC
 			""",
 			{'recipient_id': user1_id, 'sender_id': user2_id}
 			)
