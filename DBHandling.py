@@ -1,7 +1,7 @@
 import sqlite3
 from dbclass import *
 
-conn = sqlite3.connect('telegraph.db')
+conn = sqlite3.connect('vibegram.db')
 
 c = conn.cursor()
 
