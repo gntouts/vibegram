@@ -49,16 +49,17 @@ def ins_user(user):
 	with conn:
 		c.execute("INSERT INTO Users (first_name, last_name, avatar, phone_number, e_mail, password, created_account, is_active) VALUES (:first_name, :last_name, :avatar, :phone_number, :e_mail, :password, :created_account, :is_active)", {'first_name': user.first_name, 'last_name': user.last_name, 'avatar': user.avatar, 'phone_number': user.phone_number, 'e_mail': user.e_mail, 'password': user.password, 'created_account': user.created_account, 'is_active': user.is_active})
 		
-
-
-def clear_all_rows(table):
+def clear_users():
 	with conn:
-		c.execute("DELETE FROM (:table)", {'table': table} )
+		c.execute("DELETE FROM Users")
 		
 def del_user(user):
 	with conn:
 		c.execute("DELETE from Users WHERE first_name = :first_name AND last_name = :last_name",
                   {'first_name': user.first_name, 'last': user.last_name})
 				  
-				  
-				  
+
+def print_users():
+	with conn:
+		c.execute("SELECT * FROM Users")
+		print(c.fetchall())
