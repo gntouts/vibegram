@@ -63,3 +63,8 @@ def print_users():
 	with conn:
 		c.execute("SELECT * FROM Users")
 		print(c.fetchall())
+		
+def print_usnames():
+	with conn:
+		c.execute("SELECT user_id, first_name, last_name FROM Users")
+		print(c.fetchall())
