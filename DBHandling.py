@@ -75,11 +75,16 @@ def clear_users():
 	with conn:
 		c.execute("DELETE FROM Users")
 		
-def del_user(user):
+def del_user_by_name(user):
 	with conn:
 		c.execute("DELETE from Users WHERE first_name = :first_name AND last_name = :last_name",
                   {'first_name': user.first_name, 'last': user.last_name})
 				  
+				  
+def del_user_by_id(user):
+	with conn:
+		c.execute("DELETE from Users WHERE user_id = :user_id ",
+                  {'user_id': user.user_id})
 
 def print_users():
 	with conn:
@@ -162,7 +167,29 @@ def search_by_email(email):
 					)
 		print(c.fetchall())
 		
-	
+def create_message(message):
+	with conn:
+		date_sent = str(datetime.datetime.now())
+		c.execute("""INSERT INTO Messages (sender_id,
+		is_sent, date_time_sent,
+		message_body, attachment)
+		
+		VALUES (:sender_id,
+		:is_sent, 
+		:date_time_sent,
+		:message_body, 
+		:attachment)""",
+		{'sender_id': message.sender_id,
+		'is_sent': message.is_sent, 'date_time_sent': date_sent,
+		'message_body': message.message_body, 'attachment': message.attachment}
+		)
+
+def print_all_msg():
+	with conn:
+		c.execute("SELECT * FROM Messages")
+		print(c.fetchall())		
+
+def print_conv()
 ##clear_users()
 		
 ##user1 = Users('', 'Giorgos', 'Tasopoulos', 's', 2106014255, 'tasop@gmail.com', 'passkey', 's', 'y')
@@ -187,3 +214,8 @@ def search_by_email(email):
 
 ##make_friend(2, 5, 'work')
 ##print_friends()
+
+##body = 'Ola kala file?'
+##message1=Messages('',2, 'Y', '', body, '/0')
+##create_message(message1)
+##print_all_msg()
