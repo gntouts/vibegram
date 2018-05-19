@@ -133,4 +133,4 @@ ins_user(user6)
 users = print_usnames()
 
 make_friend(217, 216, '29.12.1995', 'work')
-print_friends()
+##print_friends()
