@@ -20,7 +20,7 @@ def WelcomeAction(choice, c):
         found = 0
         while (found):
             email = input("Email: ")##In create_user function we should run a test to make sure the e-mail isnt already in use
-            password = input("Password: ")
+            password = input("Password: ")##giati trexeis to search edw, de tha mpei se ksexwristo function?
             cur = c.execute("SELECT user_id FROM Users WHERE e_mail = :email AND password = :password", {"email":email, "password":password})
             for r in cur:
                 found = r[0]
