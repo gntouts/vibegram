@@ -52,9 +52,14 @@ def Mess_Delivered():
 	##absolutely no clue how to implement this
 	pass
 	
-def Delete_Friend():
+def Delete_Friend(user_id, friend_id):
 	##allows user to delete friend
-	pass
+	with conn:
+		c.execute("""DELETE from Friend
+					WHERE (friend1_id = :user_id AND friend2_id = :friend_id)
+					OR (friend2_id = :user_id AND friend1_id = :friend_id)""",
+					{'user_id': user_id, 'friend_id': friend2_id}
+					)
 	
 def Change_friend_type(user_id, friend_id, new_type):
 	##allows user to change friendship type
