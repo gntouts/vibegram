@@ -199,12 +199,33 @@ def send_message(recipient_id, message_id):
 		'message_id': message_id}
 		)
 
-def send_to_may():
-	pass
+def send_to_many(recipient_id_list, message_id):	
+	##count = len(id_list)
+	for recipient in recipient_id_list:
+		send_message(recipient, message_id)
 		
-def send_to_group():
-	pass
-
+def send_to_group(group, message_id):
+	with conn:
+		c.execute("""SELECT sender_id FROM Messag
+					WHERE message_id = :message_id""",
+					{'message_id': message_id}
+					)
+		sender_id = c.fetchone()
+		c.execute("""SELECT friend1_id
+				FROM Messages
+				WHERE (friend2_id = :sender_id AND friend_type = :friend_type)""",
+				{'sender_id': sender_id, 'friend_type': group}
+				)
+		recipients1 = c.fetchall()
+		c.execute("""SELECT friend2_id
+				FROM Messages
+				WHERE (friend1_id = :sender_id AND friend_type = :friend_type)""",
+				{'sender_id': sender_id, 'friend_type': group}
+				)
+		recipients2 = c.fetchall()
+		send_to_many(recipients1, message_id)
+		send_to_many(recipients2, message_id)
+		
 		
 def message_received(message_id):
 	with conn:
