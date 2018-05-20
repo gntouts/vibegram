@@ -60,3 +60,4 @@ def Delete_Account():
 	##this deletes all his friendships
 	##and changes all the messages sent or received by him
 	##to sent/received by unknown
+	pass
