@@ -2,55 +2,64 @@ import sqlite3
 import datetime as dt
 from dbclass import *
 from DBHandling import *
+from UserFunctions import *
 
 
 def WelcomeMenu():
     a = -1
     while (a not in range(3)):
-        print ("Choose one of the following:")
         print ("1) Sign In")
         print ("2) Sign Up")
         print ("0) Exit program")
+        print ("What would you like to do: ", end='')
         a = int(input())
     return a
 
 def WelcomeAction(choice, c):
 
     if (choice == 1):
-        return Sign_In()
+        return Sign_In(c)
     if (choice == 2):
-        print ("----Sign Up----")
-        print ("Name: ", end='')
-        name = input()
-        print ("Last Name: ", end='')
-        lastname = input()
-        print ("Email: ", end='')
-        email = input()
-        print ("Phone: ", end='')
-        phone = input()
-        print ("Password: ", end='')
-        password = input()
-        print ("Avatar: ", end='')
-        avatar = input()
-
-        print ("Creating account...")
-        user = Users('', name, lastname, avatar, phone, \
-                     email, password, dt.datetime.now() , 'y')
-
-        ins_user(user)
+        return Create_Acc(c)
+    else:
+        pass
             
 def MainMenu(userid, c):
     cur = c.execute("SELECT first_name, last_name FROM Users WHERE user_id = ?", (userid,))
     for r in cur:
         name = r[0]
         lastname = r[1]
-    print ("Hello", name, lastname, "!")
+    print ("\nHello", name, lastname, "!")
 
-    #gia pes gnwmh gia edw...mallon den ftanei ena kentriko interface
-    print ("Choose one of the following:")
-    print ("1) See contacts")
-    print ("2) Create message")
+    print ("1) Search users and add them as Friends")
+    print ("2) See Friends")
+    print ("3) Update Profile")
+    print ("4) Send message to a user") 
     print ("0) Exit")
+    print ("What would you like to do: ", end='')
+    return int(input())
+
+def MainAction(choice,userid, c):
+    if (choice == 1):
+        results=[]
+        results = Search_Users(c)
+        #print (results)
+        print ("Chose a user to be added to your Friends or press 0 to go back")
+        a = int(input())
+        Add_Friend(a, userid, results[a][0], c, "")
+    if (choice == 2):
+        Contact_List(userid, c)
+        print ("\nPress enter to continue")
+        wait = input()
+    if (choice==3):
+        Update_Account(userid, c)
+    if (choice==4):
+        Contact_List(userid, c)
+        print ("Select a User by his user ID to send him a message: ")
+        userid2 = int(input())
+        Create_Mess(userid, userid2, c)
+        
+        
 
         
 def main():
@@ -64,10 +73,12 @@ def main():
 
     choice = WelcomeMenu()
     userid = WelcomeAction(choice, c)
-    choice = MainMenu(userid, c)
-
+    while (choice != 0):
+        choice = MainMenu(userid, c)
+        MainAction(choice, userid, c)
     print ("Closing...")
     conn.commit()
     conn.close
+    
 if __name__ == "__main__":
     main()
