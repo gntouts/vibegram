@@ -3,7 +3,12 @@ import datetime
 from dbclass import *
 from DBHandling import *
 
-def Create_Acc():
+def Check_if_exists(user_mail):
+	id = search_by_email(user_mail)
+	##if....
+
+
+def Create_Acc():##
 	##allows user to create an new acc and 
 	##insert name, avatar, phone, email and password
 	pass
@@ -12,19 +17,7 @@ def Sign_In():
 	##allows user to sign in using his email and password
 	##returns his user_id
 	##changes users 'is_active' parameter
-        found = 0
-        while (not found):
-            print ("----Sign In----")
-            print ("Email: ", end='')
-            email = input()
-            print ("Password: ", end='')
-            password = input()
-            cur = c.execute("SELECT user_id FROM Users WHERE e_mail = :email AND password = :password", {"email":email, "password":password})
-            for r in cur:
-                found = r[0]
-            if (not found):
-                print ("Wrong username or password, try again!\n")
-        return found
+	pass
 	
 def Update_Account():
 	##allows end user to change name, avatar, phone, email and password
@@ -67,18 +60,38 @@ def Change_friend_type(user_id, friend_id, new_type):
 	##allows user to change friendship type
 	with conn:
 		c.execute("""UPDATE Users
-				SET friend_type = :friend_tpe
-				WHERE (friend1_id = :user_id 
-				AND friend2_id = :friend_id)
-				OR (friend2_id = :user_id 
-				AND friend1_id = :friend_id)
-				""",
-				{'friend_type': new_type, 'friend1_id': name, 'friend2_id': lastname}
-				)
+					SET friend_type = :friend_tpe
+					WHERE (friend1_id = :user_id 
+					AND friend2_id = :friend_id)
+					OR (friend2_id = :user_id 
+					AND friend1_id = :friend_id)
+					""",
+					{'friend_type': new_type, 'friend1_id': name, 'friend2_id': lastname}
+					)
 	
-def Delete_Account():
+def Delete_Account(user_id):
 	##allows user to delete account
 	##this deletes all his friendships
 	##and changes all the messages sent or received by him
 	##to sent/received by unknown
-	pass
+	with conn:
+		deleted_id = 'UNKNOWN'
+		
+		c.execute("DELETE from Users WHERE user_id = :user_id",
+                  {'user_id': user_id})
+		c.execute("""DELETE from Friend
+					WHERE friend1_id = :user_id OR friend2_id = :user_id""",
+					{'user_id': user_id}
+					)
+		c.execute("""UPDATE Messages
+					SET sender_id = :deleted_id
+					WHERE sender_id = :user_id""",
+					{'deleted_id': deleted_id, 'user_id': user_id}
+					)
+		c.execute("""UPDATE Receiving
+					SET recipient_id = :deleted_id
+					WHERE recipient_id = :user_id""",
+					{'deleted_id': deleted_id, 'user_id': user_id}
+					)		
+					
+					
