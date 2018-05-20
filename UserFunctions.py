@@ -40,6 +40,7 @@ def See_Conv():
 	##allows user to see a conversation with a friend
 	##also shows if past messages are delivered 
 	##and their timestamp of delivery
+	##makes all messages received by that user is_received
 	pass
 	
 def Mess_Delivered():
