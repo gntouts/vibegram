@@ -12,7 +12,19 @@ def Sign_In():
 	##allows user to sign in using his email and password
 	##returns his user_id
 	##changes users 'is_active' parameter
-	pass
+        found = 0
+        while (not found):
+            print ("----Sign In----")
+            print ("Email: ", end='')
+            email = input()
+            print ("Password: ", end='')
+            password = input()
+            cur = c.execute("SELECT user_id FROM Users WHERE e_mail = :email AND password = :password", {"email":email, "password":password})
+            for r in cur:
+                found = r[0]
+            if (not found):
+                print ("Wrong username or password, try again!\n")
+        return found
 	
 def Update_Account():
 	##allows end user to change name, avatar, phone, email and password
