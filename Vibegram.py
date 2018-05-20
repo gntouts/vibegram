@@ -17,19 +17,7 @@ def WelcomeMenu():
 def WelcomeAction(choice, c):
 
     if (choice == 1):
-        found = 0
-        while (not found):
-            print ("----Sign In----")
-            print ("Email: ", end='')
-            email = input()##In create_user function we should run a test to make sure the e-mail isnt already in use
-            print ("Password: ", end='')
-            password = input()##giati trexeis to search edw, de tha mpei se ksexwristo function?
-            cur = c.execute("SELECT user_id FROM Users WHERE e_mail = :email AND password = :password", {"email":email, "password":password})
-            for r in cur:
-                found = r[0]
-            if (not found):
-                print ("Wrong username or password, try again!\n")
-        return found
+        return Sign_In()
     if (choice == 2):
         print ("----Sign Up----")
         print ("Name: ", end='')
