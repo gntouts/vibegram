@@ -51,9 +51,18 @@ def Delete_Friend():
 	##allows user to delete friend
 	pass
 	
-def Change_friend_type():
-	##allows user to change frindship type
-	pass
+def Change_friend_type(user_id, friend_id, new_type):
+	##allows user to change friendship type
+	with conn:
+		c.execute("""UPDATE Users
+				SET friend_type = :friend_tpe
+				WHERE (friend1_id = :user_id 
+				AND friend2_id = :friend_id)
+				OR (friend2_id = :user_id 
+				AND friend1_id = :friend_id)
+				""",
+				{'friend_type': new_type, 'friend1_id': name, 'friend2_id': lastname}
+				)
 	
 def Delete_Account():
 	##allows user to delete account
