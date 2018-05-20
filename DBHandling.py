@@ -198,6 +198,13 @@ def send_message(recipient_id, message_id):
 		'date_time_received': '', 'is_received': 'N',
 		'message_id': message_id}
 		)
+
+def send_to_may():
+	pass
+		
+def send_to_group():
+	pass
+
 		
 def message_received(message_id):
 	with conn:
