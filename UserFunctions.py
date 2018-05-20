@@ -28,5 +28,34 @@ def Contact_List():
 	##also shows if contacts are active
 	pass
 	
-
+def Create_Mess():
+	##allows user to create new message and send it or save it as draft
+	pass
 	
+def Send_Mess():
+	##allows user to send message to One, Many or Group
+	pass
+	
+def See_Conv():
+	##allows user to see a conversation with a friend
+	##also shows if past messages are delivered 
+	##and their timestamp of delivery
+	pass
+	
+def Mess_Delivered():
+	##absolutely no clue how to implement this
+	pass
+	
+def Delete_Friend():
+	##allows user to delete friend
+	pass
+	
+def Change_friend_type():
+	##allows user to change frindship type
+	pass
+	
+def Delete_Account():
+	##allows user to delete account
+	##this deletes all his friendships
+	##and changes all the messages sent or received by him
+	##to sent/received by unknown
