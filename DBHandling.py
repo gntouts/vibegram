@@ -112,7 +112,7 @@ def make_friend(user1_id, user2_id, friend_type):
 				
 def print_friends():
 	with conn:
-		c.execute("SELECT * FROM Friend)
+		c.execute("SELECT * FROM Friend;")
 		print(c.fetchall())
 
 		
