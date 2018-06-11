@@ -416,7 +416,6 @@ def Check_My_Stats(userid):
         print ("Avatar:", apot[3])
         print ("Phone Number:", apot[4])
         print ("E-mail:", apot[5])
-        print ("Password:", apot[6])
         print ("User since:", apot[7])
         if (apot[8]=='y'):
             print ("Status: Active")
@@ -451,16 +450,25 @@ def Update_Account(userid):
                             WHERE user_id = :userid""", \
                           {"email" : email, "userid" : userid})
             elif (a==2):
-                cur = c.execute("""SELECT password FROM User
-                                WHERE user_id = :userid""", \
-                                  {"userid" : userid})
-                for r in cur:
-                    print ("Old password:", r[0])
-                print ("New password: ", end='')
-                password = input()
+                
+                #------------Password hashing---------------
+                while (True):
+                    #print ("Password: ", end='')
+                    raw_password = getpass.getpass("New password: ")
+                    #print ("Password confirmation: ", end="")
+                    raw_password2 = getpass.getpass("New password confirmation: ")
+                    if (raw_password == raw_password2):
+                        break
+                    print ("Password mismatch, try again!")
+                salt = hashlib.sha256(str(random.getrandbits(512)).encode('utf-8')).hexdigest()[:5]
+                hsh = hashlib.sha256(('%s%s' % (salt, raw_password)).encode('utf-8')).hexdigest()
+                final_password = '%s$%s' % (salt, hsh)
+            
+                #-----------------------------------------
+                
                 c.execute("""UPDATE User SET password = :password
                             WHERE user_id = :userid""", \
-                          {"password" : password, "userid" : userid})
+                          {"password" : final_password, "userid" : userid})
             elif (a==3):
                 cur = c.execute("""SELECT first_name FROM User
                                 WHERE user_id = :userid""", \
@@ -509,7 +517,10 @@ def Update_Account(userid):
                   pass
 
             if (a):
-                  print ("Profile updated successfully!")
+                print ("")
+                print ("Profile updated successfully!")
+                print ("Press anything to continue.")
+                wait = input()
 
 
 def Logout(userid):
