@@ -131,7 +131,7 @@ def Search_Users():
             print ("\n1) Search users by fist name")
             print ("2) Search users by last name")
             print ("3) Search users by e-mail")
-            print ("0) Back")
+            print ("0) Go Back")
             print ("What would you like to do: ", end='')
             a = int(input())
 
