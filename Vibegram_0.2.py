@@ -8,11 +8,15 @@ from DML import *
 def WelcomeMenu():
     a = -1
     while (a not in range(4)):
+        cls()
         print ("1) Sign In")
         print ("2) Sign Up")
         print ("0) Exit program")
         print ("What would you like to do: ", end='')
-        a = int(input())
+        try:
+            a = int(input())
+        except ValueError as e:
+            pass
     return a
 
 	
@@ -40,23 +44,30 @@ def WelcomeAction(choice):
 
 
 def MainMenu(userid):
-    cls()
+    
     c = conn.cursor()
-    cur = c.execute("SELECT first_name, last_name FROM User WHERE user_id = ?", (userid,))
-    for r in cur:
-        name = r[0]
-        lastname = r[1]
-    print ("\nHello", name, lastname, "!")
-    print ("1) Search users and add them as Friends")
-    print ("2) See Friends")
-    print ("3) Send message to a user")
-    print ("4) Open conversation")
-    print ("5) See draft messages")
-    print ("6) Check my profile")
-    print ("7) Update Profile")
-    print ("0) Logout")
-    print ("What would you like to do: ", end='')
-    return int(input())
+    a=-1
+    while (a not in range(8)):
+        cls()
+        cur = c.execute("SELECT first_name, last_name FROM User WHERE user_id = ?", (userid,))
+        for r in cur:
+            name = r[0]
+            lastname = r[1]
+        print ("\nHello", name, lastname, "!")
+        print ("1) Search users and add them as Friends")
+        print ("2) See Friends")
+        print ("3) Send message to a user")
+        print ("4) Open conversation")
+        print ("5) See draft messages")
+        print ("6) Check my profile")
+        print ("7) Update Profile")
+        print ("0) Logout")
+        print ("What would you like to do: ", end='')
+        try:
+            a = int(input())
+        except ValueError as e:
+            cls()        
+    return a
 
 def MainMenuAction(choice, userid):
     results=[]
@@ -67,7 +78,7 @@ def MainMenuAction(choice, userid):
         if (results != []):
             print ("Choose a user to be added to your Friends or press 0 to go back")
             a = int(input())
-            if (a != 0):
+            if (a):
                 print ("Choose type of friend: ", end="")
                 tupos = input()
                 Add_Friend(a, userid, results[a][0], tupos)
@@ -90,8 +101,10 @@ def MainMenuAction(choice, userid):
     elif (choice==3):
         
         #----------Enter Message body--------------
-        print("Enter the text of your message")
+        print("Enter the text of your message or press enter to go back")
         body = input()
+        if (not body):
+            return userid
         timestamp = Create_Message(body, userid)
 
         
@@ -124,8 +137,11 @@ def MainMenuAction(choice, userid):
         #---------Select friend and print conversation---------------
         print("Select a friend to see your conversation: ", end = "")
         results = Contact_List(userid)
+        print ("0) Go Back")
         userid2 = int(input())
-
+        if (not userid2):
+            return userid
+        
         Conversation(userid, results[userid2])
         
         print ("\nPress enter to continue ", end="")
@@ -174,14 +190,14 @@ def main():
     print ("Creating database...")
     CreateTables()
     print ("Done!")
-##    a = ""
-##    while (a!="y" and a!="n"):
-##        print ("Do you want to populate the Database? (1000 new users) (y/n)")
-##        a = input()
-##    if (a=="y"):
-##        print ("Populating Database...")
-##        PopulateDB()
-##        print ("Done!")
+    a = ""
+    while (a!="y" and a!="n"):
+        print ("Do you want to populate the Database? (1000 new users) (y/n)")
+        a = input()
+    if (a=="y"):
+        print ("Populating Database...")
+        PopulateDB()
+        print ("Done!")
 
     exit_flag = 0
     while(exit_flag == 0):
