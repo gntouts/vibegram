@@ -58,7 +58,7 @@ def CreateTables():
 
 def PopulateDB():
 
-    conn = sqlite3.connect('vibegram.db')
+    conn = sqlite3.connect('vibegramDB.db')
     c = conn.cursor()
 
     #------------------Create Users-------------------
