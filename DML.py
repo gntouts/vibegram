@@ -24,9 +24,9 @@ def Sign_In():
                 return 0
             else:
                 #------------Password hashing---------------
-                #print ("Password: ", end='')
+                salt = ""
                 raw_password = getpass.getpass()
-
+                
                 cur = c.execute("""SELECT password FROM User
                                 WHERE e_mail = :email """,
                                 {"email":email})
@@ -66,14 +66,16 @@ def Create_Acc():
             uid = 0
             return 0
         else:
+            
             print ("Last Name: ", end='')
             lastname = input()
             print ("Email: ", end='')
             email = input()
             print ("Phone: ", end='')
             phone = input()
-			
+                        
             #------------Password hashing---------------
+            
             raw_password = getpass.getpass()
             salt = hashlib.sha256(str(random.getrandbits(512)).encode('utf-8')).hexdigest()[:5]
             hsh = hashlib.sha256(('%s%s' % (salt, raw_password)).encode('utf-8')).hexdigest()
@@ -531,7 +533,7 @@ def Logout(userid):
 
     
 def DB_Admin():
-    conn = sqlite3.connect("vibegram.db")
+    conn = sqlite3.connect("vibegramDB.db")
     c = conn.cursor()
     print("To go back, type Back")
     query = input("Enter your SQL query: ")
