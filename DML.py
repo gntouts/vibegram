@@ -4,7 +4,7 @@ import random
 import hashlib, getpass
 from CreateDB import *
 
-conn = sqlite3.connect('vibegram.db')
+conn = sqlite3.connect('vibegramDB.db')
 
 def cls(): print ("\n" * 100)
 
@@ -72,10 +72,10 @@ def Create_Acc():
             email = input()
             print ("Phone: ", end='')
             phone = input()
+			
             #------------Password hashing---------------
             
-            print ("Password: ", end='')
-            raw_password = input()
+			raw_password = getpass.getpass()
             salt = hashlib.sha256(str(random.getrandbits(512)).encode('utf-8')).hexdigest()[:5]
             hsh = hashlib.sha256(('%s%s' % (salt, raw_password)).encode('utf-8')).hexdigest()
             final_password = '%s$%s' % (salt, hsh)
@@ -544,6 +544,7 @@ def DB_Admin():
             conn.commit()
             
         except sqlite3.OperationalError as e:
-            ##print('er:', e.__traceback__)
             print("SQL Error, please try again")
+            
+        print("To go back, type Back")
         query = input("Enter your SQL query: ")
