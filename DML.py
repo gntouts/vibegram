@@ -74,8 +74,7 @@ def Create_Acc():
             phone = input()
 			
             #------------Password hashing---------------
-            
-			raw_password = getpass.getpass()
+            raw_password = getpass.getpass()
             salt = hashlib.sha256(str(random.getrandbits(512)).encode('utf-8')).hexdigest()[:5]
             hsh = hashlib.sha256(('%s%s' % (salt, raw_password)).encode('utf-8')).hexdigest()
             final_password = '%s$%s' % (salt, hsh)
