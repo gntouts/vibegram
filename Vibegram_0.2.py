@@ -1,6 +1,6 @@
 import sqlite3
 import datetime as dt
-import getpass as gp
+import getpass
 from CreateDB import *
 from DML import *
 
@@ -26,12 +26,11 @@ def WelcomeAction(choice):
         cls()
         return Sign_In()
     if (choice == 2):
-        print('hi new user')
         cls()
         return Create_Acc()
     if (choice == 3):
 
-        key = input("Enter key: ")
+        key = getpass.getpass("Enter key: ")
         if (key == "root"):
             cls()
             DB_Admin()
@@ -184,7 +183,7 @@ def MainMenuAction(choice, userid):
 
 		
 def main():
-    conn = sqlite3.connect('vibegram.db')
+    conn = sqlite3.connect('vibegramDB.db')
 
     #gia arxh meta tha to bgaloume
     print ("Creating database...")
@@ -192,7 +191,7 @@ def main():
     print ("Done!")
     a = ""
     while (a!="y" and a!="n"):
-        print ("Do you want to populate the Database? (1000 new users) (y/n)")
+        print ("Do you want to populate the Database? (100 new users) (y/n)")
         a = input()
     if (a=="y"):
         print ("Populating Database...")
